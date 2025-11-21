@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 AUTH_USER_MODEL = 'useraccount.User'
@@ -32,7 +32,7 @@ AUTH_USER_MODEL = 'useraccount.User'
 SITE_ID = 1
 
 
-WEBSITE_URL = 'http://localhost:8000'
+WEBSITE_URL = 'http://127.0.0.1:8000'
 
 
 SIMPLE_JWT = {
@@ -61,9 +61,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
+    # 'http://64.226.81.32',
+    # 'http://64.226.81.32:1337'
 ]
 
 
@@ -75,7 +79,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 REST_AUTH = {
@@ -91,7 +95,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.sessions', 
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
@@ -222,7 +226,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 
 # Default primary key field type
