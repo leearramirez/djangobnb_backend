@@ -1,8 +1,12 @@
 import os
 
 
+
+
 from datetime import timedelta
 from pathlib import Path
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,28 +15,46 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
+
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
+
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1").split(" ")
+
+
 
 
 AUTH_USER_MODEL = 'useraccount.User'
 
 
+
+
 SITE_ID = 1
 
 
-WEBSITE_URL = 'http://127.0.0.1:8000/'
+
+
+WEBSITE_URL = 'http://127.0.0.1:8000'
+
+
 
 
 SIMPLE_JWT = {
@@ -46,11 +68,15 @@ SIMPLE_JWT = {
 }
 
 
+
+
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = None
+
+
 
 
 REST_FRAMEWORK = {
@@ -63,12 +89,16 @@ REST_FRAMEWORK = {
 }
 
 
+
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
     # 'http://64.226.81.32',
     # 'http://64.226.81.32:1337'
 ]
+
+
 
 
 CSRF_TRUSTED_ORIGINS = [
@@ -79,7 +109,11 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
+
+
 CORS_ALLOW_ALL_ORIGINS = True
+
+
 
 
 REST_AUTH = {
@@ -88,16 +122,22 @@ REST_AUTH = {
 }
 
 
+
+
 # Application definition
+
+
 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions', 
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
 
 
      'rest_framework',
@@ -105,22 +145,34 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
 
+
+
     'allauth',
     'allauth.account',
+
+
 
 
     'dj_rest_auth',
     'dj_rest_auth.registration',
 
 
+
+
     'corsheaders',
+
+
 
 
     'useraccount',
     'property',
 
 
+
+
 ]
+
+
 
 
 MIDDLEWARE = [
@@ -135,7 +187,11 @@ MIDDLEWARE = [
 ]
 
 
+
+
 ROOT_URLCONF = 'djangobnb_backend.urls'
+
+
 
 
 TEMPLATES = [
@@ -154,7 +210,13 @@ TEMPLATES = [
 ]
 
 
+
+
 WSGI_APPLICATION = 'djangobnb_backend.wsgi.application'
+
+
+
+
 
 
 
@@ -163,14 +225,12 @@ WSGI_APPLICATION = 'djangobnb_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE"),
-        'NAME': os.environ.get("SQL_DATABASE"),
-        'USER': os.environ.get("SQL_USER"),
-        'PASSWORD': os.environ.get("SQL_PASSWORD"),
-        'HOST': os.environ.get("SQL_HOST"),
-        'PORT': os.environ.get("SQL_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -179,8 +239,16 @@ DATABASES = {
 
 
 
+
+
+
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -201,20 +269,36 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+
 
 
 LANGUAGE_CODE = 'en-us'
 
 
+
+
 TIME_ZONE = 'UTC'
+
+
 
 
 USE_I18N = True
 
 
+
+
 USE_TZ = True
+
+
+
+
 
 
 
@@ -223,13 +307,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 
+
+
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
