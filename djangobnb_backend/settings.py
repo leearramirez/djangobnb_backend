@@ -32,7 +32,7 @@ AUTH_USER_MODEL = 'useraccount.User'
 SITE_ID = 1
 
 
-WEBSITE_URL = 'http://127.0.0.1:8000'
+WEBSITE_URL = 'http://127.0.0.1:8000/'
 
 
 SIMPLE_JWT = {

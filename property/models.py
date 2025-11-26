@@ -23,7 +23,7 @@ class Property(models.Model):
     category = models.CharField(max_length=255)
     # favorited = models.ManyToManyField(User, related_name='favorites', blank=True)
     image = models.ImageField(upload_to='uploads/properties')
-    landlord = models.ForeignKey(User, related_name='properties', on_delete=models.CASCADE)
+    landlord = models.ForeignKey(User, related_name='properties', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -31,4 +31,4 @@ class Property(models.Model):
 
 
     def image_url(self):
-        return f'{settings.WEBSITE_URL}{self.image.url}'
+        return f'{settings.WEBSITE_URL.rstrip("/")}{self.image.url}'
