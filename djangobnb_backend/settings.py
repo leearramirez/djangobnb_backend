@@ -82,6 +82,7 @@ ACCOUNT_EMAIL_VERIFICATION = None
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -112,13 +113,16 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 
 
 REST_AUTH = {
-    "USE_JWT": True,
-    "JWT_AUTH_HTTPONLY": False
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'session_access_token',
+    'JWT_AUTH_REFRESH_COOKIE': 'session_refresh_token',
+    'JWT_AUTH_HTTPONLY': True,
 }
 
 
@@ -233,6 +237,17 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+if os.environ.get('DATABASE') == 'postgres':
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('SQL_DATABASE'),
+        'USER': os.environ.get('SQL_USER'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD'),
+        'HOST': os.environ.get('SQL_HOST'),
+        'PORT': os.environ.get('SQL_PORT'),
+    }
 
 
 
