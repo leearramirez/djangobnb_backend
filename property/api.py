@@ -30,7 +30,21 @@ def properties_list(request):
 def properties_detail(request, pk):
     property = Property.objects.get(pk=pk)
 
-    print(f"Property ID: {pk}, Image field: {property.image}, Image URL: {property.image_url()}")
+
+
+
+     #
+    # Filter
+    landlord_id = request.GET.get('landlord_id', '')
+
+
+    if landlord_id:
+        properties = properties.filter(landlord_id=landlord_id)
+
+
+    #
+    #
+
 
     serializer = PropertiesDetailSerializer(property, many=False)
 
