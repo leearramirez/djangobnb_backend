@@ -20,7 +20,15 @@ def properties_list(request):
 
 
     try:
-        token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
+        # Try to get token from Authorization header first
+        if 'HTTP_AUTHORIZATION' in request.META:
+            token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
+        # If not in header, try to get from cookie
+        elif 'session_access_token' in request.COOKIES:
+            token = request.COOKIES.get('session_access_token')
+        else:
+            raise Exception('No token found')
+        
         token = AccessToken(token)
         user_id = token.payload['user_id']
         user = User.objects.get(pk=user_id)
@@ -38,11 +46,16 @@ def properties_list(request):
 
     #
     # Filter
+    is_favorites = request.GET.get('is_favorites', '')
     landlord_id = request.GET.get('landlord_id', '')
 
 
     if landlord_id:
         properties = properties.filter(landlord_id=landlord_id)
+
+
+    if is_favorites:
+        properties = properties.filter(favorited__in=[user])
 
 
     #
@@ -71,58 +84,14 @@ def properties_detail(request, pk):
     property = Property.objects.get(pk=pk)
 
 
-     #
-    # Auth
-
-
-    try:
-        token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
-        token = AccessToken(token)
-        user_id = token.payload['user_id']
-        user = User.objects.get(pk=user_id)
-    except Exception as e:
-        user = None
-
-
-    #
-    #
-
-
-    favorites = []
-    properties = Property.objects.all()
-
-
-     #
-    # Filter
-    landlord_id = request.GET.get('landlord_id', '')
-
-
-    if landlord_id:
-        properties = properties.filter(landlord_id=landlord_id)
-
-
-    #
-    #Favorites
-    if user:
-        for property in properties:
-            if user in property.favorited.all():
-                favorites.append(property.id)
-    #
-    #
-
-
     serializer = PropertiesDetailSerializer(property, many=False)
 
 
-    return JsonResponse({
-        'data': serializer.data,
-        'favorites': favorites
-    })
-
-
-
-
     return JsonResponse(serializer.data)
+
+
+
+
 
 
 @api_view(['GET'])
@@ -210,4 +179,3 @@ def toggle_favorite(request, pk):
 
 
         return JsonResponse({'is_favorite': True})
-
