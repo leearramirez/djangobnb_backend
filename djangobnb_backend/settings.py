@@ -56,7 +56,7 @@ WEBSITE_URL = 'http://localhost:8000'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemmoryChannelLayer'
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
     }
 }
 
@@ -347,7 +347,3 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-

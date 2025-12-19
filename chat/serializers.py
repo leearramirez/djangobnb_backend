@@ -9,6 +9,15 @@ from useraccount.serializers import UserDetailSerializer
 
 
 
+class ConversationMessageSerializer(serializers.ModelSerializer):
+    sent_to = UserDetailSerializer(many=False, read_only=True)
+    created_by = UserDetailSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = ConversationMessage
+        fields = ('id', 'body', 'sent_to', 'created_by', 'created_at',)
+
+
 class ConversationListSerializer(serializers.ModelSerializer):
     users = UserDetailSerializer(many=True, read_only=True)
 
@@ -16,3 +25,12 @@ class ConversationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = ('id', 'users', 'modified_at',)
+
+
+class ConversationDetailSerializer(serializers.ModelSerializer):
+    users = UserDetailSerializer(many=True, read_only=True)
+    messages = ConversationMessageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Conversation
+        fields = ('id', 'users', 'modified_at', 'messages',)
